@@ -1,0 +1,41 @@
+name: Build
+
+on:
+  push
+
+jobs:
+  build_cmmkv_on_windows:
+    strategy:
+      fail-fast: false
+      matrix:
+        rid: [win-x86, win-x64, win-arm64]
+        include:
+        - rid: win-x86
+          arch: x86
+        - rid: win-x64
+          arch: x64
+        - rid: win-arm64
+          arch: arm64
+    name: Build CMMKV (${{ matrix.rid }})
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+      - name: Get latest CMake and ninja
+        uses: lukka/get-cmake@latest
+      - name: Build
+        shell: powershell
+        run: |
+          $ErrorActionPreference = "Stop"
+          $vsPath = &(Join-Path ${env:ProgramFiles(x86)} "\Microsoft Visual Studio\Installer\vswhere.exe") -property installationpath
+          Import-Module (Join-Path $vsPath "Common7\Tools\Microsoft.VisualStudio.DevShell.dll")
+          Enter-VsDevShell -VsInstallPath $vsPath -SkipAutomaticLocation -DevCmdArguments '-arch=${{ matrix.arch }} -host_arch=x64'
+          cd ${{ github.workspace }}/cmmkv
+          cmake . -G "Ninja" -DCMAKE_BUILD_TYPE=RelWithDebInfo
+          cmake --build . --config RelWithDebInfo
+      - uses: actions/upload-artifact@v3
+        with:
+          name: cmmkv-${{ matrix.rid }}
+          path: ${{ github.workspace }}/cmmkv/output/${{ matrix.rid }}
