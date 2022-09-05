@@ -4,29 +4,34 @@
 #include <locale>
 #include <codecvt>
 
+template<class Facet>
+struct deletable_facet : Facet
+{
+    template<class... Args>
+    deletable_facet(Args&&... args) : Facet(std::forward<Args>(args)...) {}
+    ~deletable_facet() {}
+};
+
 inline std::string strToU8(const char16_t* str)
 {
     if (!str)
     {
         return "";
     }
-    return std::wstring_convert<std::codecvt<char16_t, char, std::mbstate_t>, char16_t>().to_bytes(str);
+    return std::wstring_convert<deletable_facet<std::codecvt<char16_t, char, std::mbstate_t>>, char16_t>().to_bytes(str);
 }
 
 inline MMKVPath_t strToPath(const char16_t* str)
 {
-    if constexpr ((sizeof(wchar_t) == sizeof(char16_t)) && std::is_same_v<MMKVPath_t, std::wstring>)
+#ifdef _WIN32
+    if (!str)
     {
-        if (!str)
-        {
-            return L"";
-        }
-        return std::wstring(reinterpret_cast<const wchar_t*>(str));
+        return L"";
     }
-    else
-    {
-        return string2MMKVPath_t(strToU8(str));
-    }
+    return std::wstring(reinterpret_cast<const wchar_t*>(str));
+#else
+    return string2MMKVPath_t(strToU8(str));
+#endif
 }
 
 inline MMKVStringBox* mmkvStringBoxNewInternal(const std::string& str)
