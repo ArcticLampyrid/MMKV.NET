@@ -154,3 +154,60 @@ jobs:
         with:
           name: cmmkv-all
           path: ${{ github.workspace }}/cmmkv/output
+
+  pack_managed_mmkv_package_for_testing:
+    name: Pack ManagedMmkv packages for testing
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config: [Debug, Release]
+    needs:
+      - pack_cmmkv
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: false
+      - name: Download CMMKV binary (all)
+        uses: actions/download-artifact@v3
+        with:
+          name: cmmkv-all
+          path: ${{ github.workspace }}/cmmkv/output
+      - name: Pack packages for testing
+        run: |
+          dotnet pack "ManagedMmkv/ManagedMmkv.csproj" -c ${{ matrix.config }} -o ./MyPackages "/p:Version=100.0.0.0-Test-${{ matrix.config }}"
+      - name: Upload packages for testing
+        uses: actions/upload-artifact@v3
+        with:
+          name: MyPackages-Test-${{ matrix.config }}
+          path: ${{ github.workspace }}/MyPackages
+
+  test_managed_mmkv:
+    name: Test ManagedMmkv
+    runs-on: ${{ matrix.os }}
+    needs:
+      - pack_managed_mmkv_package_for_testing
+    strategy:
+      fail-fast: false
+      matrix:
+        config: [Debug, Release]
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: false
+      - name: Download packages for testing
+        uses: actions/download-artifact@v3
+        with:
+          name: MyPackages-Test-${{ matrix.config }}
+          path: ${{ github.workspace }}/MyPackages
+      - name: Install packages for testing
+        run: |
+          dotnet nuget add source ${{ github.workspace }}/MyPackages
+          dotnet add "ManagedMmkvTest/ManagedMmkvTest.csproj" package "Alampy.ManagedMmkv" -v "100.0.0.0-Test-${{ matrix.config }}"
+      - name: Test
+        run: |
+          dotnet test "ManagedMmkvTest/ManagedMmkvTest.csproj" -c ${{ matrix.config }}
+      
