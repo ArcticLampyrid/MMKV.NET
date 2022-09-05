@@ -74,3 +74,29 @@ jobs:
         with:
           name: cmmkv-${{ matrix.rid }}
           path: ${{ github.workspace }}/cmmkv/output/${{ matrix.rid }}
+
+  build_cmmkv_on_macos:
+    strategy:
+      fail-fast: false
+      matrix:
+        rid: [osx-x64]
+        include:
+        - rid: osx-x64
+    name: Build CMMKV (${{ matrix.rid }})
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+      - name: Get latest CMake and ninja
+        uses: lukka/get-cmake@latest
+      - name: Build
+        run: |
+          cd ${{ github.workspace }}/cmmkv
+          cmake . -G "Ninja" -DCMAKE_BUILD_TYPE=RelWithDebInfo ${{ matrix.toolchain_file && format('-DCMAKE_TOOLCHAIN_FILE={0}', matrix.toolchain_file) || '' }}
+          cmake --build . --config RelWithDebInfo
+      - uses: actions/upload-artifact@v3
+        with:
+          name: cmmkv-${{ matrix.rid }}
+          path: ${{ github.workspace }}/cmmkv/output/${{ matrix.rid }}
