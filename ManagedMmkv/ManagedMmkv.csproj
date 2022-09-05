@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Alampy.ManagedMmkv</RootNamespace>
+    <PackageId>Alampy.ManagedMmkv</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="../cmmkv/output/**/*">
+      <PackagePath>runtimes/%(RecursiveDir)/native/%(Filename)%(Extension)</PackagePath>
+      <Pack>true</Pack>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+</Project>
