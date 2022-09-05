@@ -100,3 +100,57 @@ jobs:
         with:
           name: cmmkv-${{ matrix.rid }}
           path: ${{ github.workspace }}/cmmkv/output/${{ matrix.rid }}
+
+  pack_cmmkv:
+    runs-on: ubuntu-latest
+    needs:
+      - build_cmmkv_on_windows
+      - build_cmmkv_on_linux
+      - build_cmmkv_on_macos
+    steps:
+      - env:
+          rid: win-x86
+        name: Download CMMKV binary (${{ env.rid }})
+        uses: actions/download-artifact@v3
+        with:
+          name: cmmkv-${{ env.rid }}
+          path: ${{ github.workspace }}/cmmkv/output/${{ env.rid }}
+      - env:
+          rid: win-x64
+        name: Download CMMKV binary (${{ env.rid }})
+        uses: actions/download-artifact@v3
+        with:
+          name: cmmkv-${{ env.rid }}
+          path: ${{ github.workspace }}/cmmkv/output/${{ env.rid }}
+      - env:
+          rid: win-arm64
+        name: Download CMMKV binary (${{ env.rid }})
+        uses: actions/download-artifact@v3
+        with:
+          name: cmmkv-${{ env.rid }}
+          path: ${{ github.workspace }}/cmmkv/output/${{ env.rid }}
+      - env:
+          rid: linux-x64
+        name: Download CMMKV binary (${{ env.rid }})
+        uses: actions/download-artifact@v3
+        with:
+          name: cmmkv-${{ env.rid }}
+          path: ${{ github.workspace }}/cmmkv/output/${{ env.rid }}
+      - env:
+          rid: linux-arm64
+        name: Download CMMKV binary (${{ env.rid }})
+        uses: actions/download-artifact@v3
+        with:
+          name: cmmkv-${{ env.rid }}
+          path: ${{ github.workspace }}/cmmkv/output/${{ env.rid }}
+      - env:
+          rid: osx-x64
+        name: Download CMMKV binary (${{ env.rid }})
+        uses: actions/download-artifact@v3
+        with:
+          name: cmmkv-${{ env.rid }}
+          path: ${{ github.workspace }}/cmmkv/output/${{ env.rid }}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: cmmkv-all
+          path: ${{ github.workspace }}/cmmkv/output
