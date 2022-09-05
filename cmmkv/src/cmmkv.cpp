@@ -41,12 +41,12 @@ inline MMKVStringBox* mmkvStringBoxNewInternal(std::string&& str)
 
 extern "C"
 {
-    void __stdcall mmkvInit(const char16_t* rootDir, MMKVLogLevel logLevel)
+    void MMKVCALL mmkvInit(const char16_t* rootDir, MMKVLogLevel logLevel)
     {
         MMKV::initializeMMKV(strToPath(rootDir), logLevel);
     }
 
-    void __stdcall mmkvStringBoxDelete(MMKVStringBox* str)
+    void MMKVCALL mmkvStringBoxDelete(MMKVStringBox* str)
     {
         if (str)
         {
@@ -54,7 +54,7 @@ extern "C"
         }
     }
 
-    MMKVStringBox* __stdcall mmkvStringBoxNew(const char16_t* str)
+    MMKVStringBox* MMKVCALL mmkvStringBoxNew(const char16_t* str)
     {
         if (str)
         {
@@ -63,7 +63,7 @@ extern "C"
         return nullptr;
     }
 
-    void* __stdcall mmkvStringBoxAccessU8(MMKVStringBox* str, MMKVStringBoxAccessorU8 accessor)
+    void* MMKVCALL mmkvStringBoxAccessU8(MMKVStringBox* str, MMKVStringBoxAccessorU8 accessor)
     {
         if (str)
         {
@@ -73,7 +73,7 @@ extern "C"
         return nullptr;
     }
 
-    MMKV* __stdcall mmkvWithID(
+    MMKV* MMKVCALL mmkvWithID(
         const char16_t* mmapID, 
         MMKVMode mode,
         const char16_t* cryptKey,
@@ -117,7 +117,7 @@ extern "C"
         return kv;
     }
 
-    MMKV* __stdcall mmkvDefault(
+    MMKV* MMKVCALL mmkvDefault(
         MMKVMode mode,
         const char16_t* cryptKey)
     {
@@ -137,7 +137,7 @@ extern "C"
         return kv;
     }
 
-    MMKVStringBox* __stdcall mmkvMmapID(MMKV* kv)
+    MMKVStringBox* MMKVCALL mmkvMmapID(MMKV* kv)
     {
         if (kv)
         {
@@ -146,7 +146,7 @@ extern "C"
         return nullptr;
     }
 
-    bool __stdcall mmkvSetBool(MMKV* kv, const char16_t* key, bool value)
+    bool MMKVCALL mmkvSetBool(MMKV* kv, const char16_t* key, bool value)
     {
         if (kv)
         {
@@ -155,7 +155,7 @@ extern "C"
         return false;
     }
 
-    bool __stdcall mmkvGetBool(MMKV* kv, const char16_t* key, bool defaultValue, bool *hasValue)
+    bool MMKVCALL mmkvGetBool(MMKV* kv, const char16_t* key, bool defaultValue, bool *hasValue)
     {
         if (kv)
         {
@@ -172,7 +172,7 @@ extern "C"
         }
     }
 
-    bool __stdcall mmkvSetInt32(MMKV* kv, const char16_t* key, int32_t value)
+    bool MMKVCALL mmkvSetInt32(MMKV* kv, const char16_t* key, int32_t value)
     {
         if (kv)
         {
@@ -181,7 +181,7 @@ extern "C"
         return false;
     }
 
-    int32_t __stdcall mmkvGetInt32(MMKV* kv, const char16_t* key, int32_t defaultValue, bool* hasValue)
+    int32_t MMKVCALL mmkvGetInt32(MMKV* kv, const char16_t* key, int32_t defaultValue, bool* hasValue)
     {
         if (kv)
         {
@@ -198,7 +198,7 @@ extern "C"
         }
     }
 
-    bool __stdcall mmkvSetInt64(MMKV* kv, const char16_t* key, int64_t value)
+    bool MMKVCALL mmkvSetInt64(MMKV* kv, const char16_t* key, int64_t value)
     {
         if (kv)
         {
@@ -207,7 +207,7 @@ extern "C"
         return false;
     }
 
-    int64_t __stdcall mmkvGetInt64(MMKV* kv, const char16_t* key, int64_t defaultValue, bool* hasValue)
+    int64_t MMKVCALL mmkvGetInt64(MMKV* kv, const char16_t* key, int64_t defaultValue, bool* hasValue)
     {
         if (kv)
         {
@@ -224,7 +224,7 @@ extern "C"
         }
     }
 
-    bool __stdcall mmkvSetUInt32(MMKV* kv, const char16_t* key, uint32_t value)
+    bool MMKVCALL mmkvSetUInt32(MMKV* kv, const char16_t* key, uint32_t value)
     {
         if (kv)
         {
@@ -233,7 +233,7 @@ extern "C"
         return false;
     }
 
-    uint32_t __stdcall mmkvGetUInt32(MMKV* kv, const char16_t* key, uint32_t defaultValue, bool* hasValue)
+    uint32_t MMKVCALL mmkvGetUInt32(MMKV* kv, const char16_t* key, uint32_t defaultValue, bool* hasValue)
     {
         if (kv)
         {
@@ -250,7 +250,7 @@ extern "C"
         }
     }
 
-    bool __stdcall mmkvSetUInt64(MMKV* kv, const char16_t* key, uint64_t value)
+    bool MMKVCALL mmkvSetUInt64(MMKV* kv, const char16_t* key, uint64_t value)
     {
         if (kv)
         {
@@ -259,7 +259,7 @@ extern "C"
         return false;
     }
 
-    uint64_t __stdcall mmkvGetUInt64(MMKV* kv, const char16_t* key, uint64_t defaultValue, bool* hasValue)
+    uint64_t MMKVCALL mmkvGetUInt64(MMKV* kv, const char16_t* key, uint64_t defaultValue, bool* hasValue)
     {
         if (kv)
         {
@@ -276,7 +276,7 @@ extern "C"
         }
     }
 
-    bool __stdcall mmkvSetFloat(MMKV* kv, const char16_t* key, float value)
+    bool MMKVCALL mmkvSetFloat(MMKV* kv, const char16_t* key, float value)
     {
         if (kv)
         {
@@ -285,7 +285,7 @@ extern "C"
         return false;
     }
 
-    float __stdcall mmkvGetFloat(MMKV* kv, const char16_t* key, float defaultValue, bool* hasValue)
+    float MMKVCALL mmkvGetFloat(MMKV* kv, const char16_t* key, float defaultValue, bool* hasValue)
     {
         if (kv)
         {
@@ -302,7 +302,7 @@ extern "C"
         }
     }
 
-    bool __stdcall mmkvSetDouble(MMKV* kv, const char16_t* key, double value)
+    bool MMKVCALL mmkvSetDouble(MMKV* kv, const char16_t* key, double value)
     {
         if (kv)
         {
@@ -311,7 +311,7 @@ extern "C"
         return false;
     }
 
-    double __stdcall mmkvGetDouble(MMKV* kv, const char16_t* key, double defaultValue, bool* hasValue)
+    double MMKVCALL mmkvGetDouble(MMKV* kv, const char16_t* key, double defaultValue, bool* hasValue)
     {
         if (kv)
         {
@@ -328,7 +328,7 @@ extern "C"
         }
     }
 
-    bool __stdcall mmkvSetString(MMKV* kv, const char16_t* key, const char16_t* value)
+    bool MMKVCALL mmkvSetString(MMKV* kv, const char16_t* key, const char16_t* value)
     {
         if (kv)
         {
@@ -337,7 +337,7 @@ extern "C"
         return false;
     }
 
-    MMKVStringBox* __stdcall mmkvGetString(MMKV* kv, const char16_t* key, const char16_t* defaultValue, bool* hasValue)
+    MMKVStringBox* MMKVCALL mmkvGetString(MMKV* kv, const char16_t* key, const char16_t* defaultValue, bool* hasValue)
     {
         if (kv)
         {
@@ -363,7 +363,7 @@ extern "C"
         }
     }
 
-    bool __stdcall mmkvSetBytes(MMKV* kv, const char16_t* key, void* data, size_t length)
+    bool MMKVCALL mmkvSetBytes(MMKV* kv, const char16_t* key, void* data, size_t length)
     {
         if (kv)
         {
@@ -372,7 +372,7 @@ extern "C"
         return false;
     }
 
-    void* __stdcall mmkvAccessBytes(MMKV* kv, const char16_t* key, bool* hasValue, MMKVBytesAccessor accessor)
+    void* MMKVCALL mmkvAccessBytes(MMKV* kv, const char16_t* key, bool* hasValue, MMKVBytesAccessor accessor)
     {
         if (kv)
         {
@@ -394,7 +394,7 @@ extern "C"
         return nullptr;
     }
 
-    bool __stdcall mmkvContainsKey(MMKV* kv, const char16_t* key)
+    bool MMKVCALL mmkvContainsKey(MMKV* kv, const char16_t* key)
     {
         if (kv)
         {
@@ -403,7 +403,7 @@ extern "C"
         return false;
     }
 
-    size_t __stdcall mmkvCount(MMKV* kv)
+    size_t MMKVCALL mmkvCount(MMKV* kv)
     {
         if (kv)
         {
@@ -412,7 +412,7 @@ extern "C"
         return 0;
     }
 
-    size_t __stdcall mmkvTotalSize(MMKV* kv)
+    size_t MMKVCALL mmkvTotalSize(MMKV* kv)
     {
         if (kv)
         {
@@ -421,7 +421,7 @@ extern "C"
         return 0;
     }
 
-    size_t __stdcall mmkvActualSize(MMKV* kv)
+    size_t MMKVCALL mmkvActualSize(MMKV* kv)
     {
         if (kv)
         {
@@ -430,7 +430,7 @@ extern "C"
         return 0;
     }
 
-    void __stdcall mmkvRemoveValueForKey(MMKV* kv, const char16_t* key)
+    void MMKVCALL mmkvRemoveValueForKey(MMKV* kv, const char16_t* key)
     {
         if (kv)
         {
@@ -438,7 +438,7 @@ extern "C"
         }
     }
 
-    void __stdcall mmkvClearAll(MMKV* kv)
+    void MMKVCALL mmkvClearAll(MMKV* kv)
     {
         if (kv)
         {
@@ -446,7 +446,7 @@ extern "C"
         }
     }
 
-    void __stdcall mmkvSync(MMKV* kv, int32_t flag)
+    void MMKVCALL mmkvSync(MMKV* kv, int32_t flag)
     {
         if (kv)
         {
@@ -454,7 +454,7 @@ extern "C"
         }
     }
 
-    bool __stdcall mmkvIsFileValid(
+    bool MMKVCALL mmkvIsFileValid(
         MMKVMode mode,
         const char16_t* mmapID,
         const char16_t* rootPath)
@@ -474,7 +474,7 @@ extern "C"
         return false;
     }
 
-    void __stdcall mmkvLock(MMKV* kv)
+    void MMKVCALL mmkvLock(MMKV* kv)
     {
         if (kv)
         {
@@ -482,7 +482,7 @@ extern "C"
         }
     }
 
-    void __stdcall mmkvUnlock(MMKV* kv)
+    void MMKVCALL mmkvUnlock(MMKV* kv)
     {
         if (kv)
         {
@@ -490,7 +490,7 @@ extern "C"
         }
     }
 
-    void __stdcall mmkvClearMemoryCache(MMKV* kv)
+    void MMKVCALL mmkvClearMemoryCache(MMKV* kv)
     {
         if (kv)
         {
@@ -498,7 +498,7 @@ extern "C"
         }
     }
 
-    bool __stdcall mmkvTryLock(MMKV* kv)
+    bool MMKVCALL mmkvTryLock(MMKV* kv)
     {
         if (kv) 
         {
@@ -507,12 +507,12 @@ extern "C"
         return false;
     }
 
-    MMKVStringBox* __stdcall mmkvVersion()
+    MMKVStringBox* MMKVCALL mmkvVersion()
     {
         return mmkvStringBoxNewInternal(MMKV_VERSION);
     }
 
-    void __stdcall mmkvTrim(MMKV* kv)
+    void MMKVCALL mmkvTrim(MMKV* kv)
     {
         if (kv)
         {
@@ -520,7 +520,7 @@ extern "C"
         }
     }
 
-    void __stdcall mmkvClose(MMKV* kv)
+    void MMKVCALL mmkvClose(MMKV* kv)
     {
         if (kv)
         {
@@ -528,12 +528,12 @@ extern "C"
         }
     }
 
-    void __stdcall mmkvSetLogLevel(MMKVLogLevel level) 
+    void MMKVCALL mmkvSetLogLevel(MMKVLogLevel level) 
     {
         MMKV::setLogLevel(level);
     }
 
-    void __stdcall mmkvSetErrorHandler(mmkv::ErrorHandler handler)
+    void MMKVCALL mmkvSetErrorHandler(mmkv::ErrorHandler handler)
     {
         if (handler)
         {
@@ -564,7 +564,7 @@ extern "C"
         myContentChangedHandlerU8(mmapID.c_str());
     }
 
-    void mmkvSetLogHandlerU8(MMKVLogHandlerU8 handler)
+    void MMKVCALL mmkvSetLogHandlerU8(MMKVLogHandlerU8 handler)
     {
         if (handler)
         {
@@ -576,7 +576,7 @@ extern "C"
             MMKV::unRegisterLogHandler();
         }
     }
-    void mmkvSetErrorHandlerU8(MMKVErrorHandlerU8 handler)
+    void MMKVCALL mmkvSetErrorHandlerU8(MMKVErrorHandlerU8 handler)
     {
         if (handler)
         {
@@ -588,7 +588,7 @@ extern "C"
             MMKV::unRegisterErrorHandler();
         }
     }
-    void mmkvSetContentChangedHandlerU8(MMKVContentChangedHandlerU8 handler)
+    void MMKVCALL mmkvSetContentChangedHandlerU8(MMKVContentChangedHandlerU8 handler)
     {
         if (handler)
         {

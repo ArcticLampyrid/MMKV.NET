@@ -22,8 +22,14 @@ enum MMKVErrorType : int {
 #endif
 struct MMKVStringBox;
 class MMKV;
-typedef void* (__stdcall* MMKVBytesAccessor)(void* data, size_t length);
-typedef void* (__stdcall* MMKVStringBoxAccessorU8)(const char* data, size_t length);
-typedef void (__stdcall* MMKVLogHandlerU8)(MMKVLogLevel level, const char* file, int line, const char* function, const char* message);
-typedef void (__stdcall* MMKVErrorHandlerU8)(const char* mmapID, MMKVErrorType errorType, MMKVRecoverStrategic* recoverStrategic);
-typedef void (__stdcall* MMKVContentChangedHandlerU8)(const char* mmapID);
+#if (defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)) && !defined(_NI_mswin16_)
+#define MMKVCALL __stdcall
+#endif
+#ifndef MMKVCALL
+#define MMKVCALL 
+#endif
+typedef void* (MMKVCALL* MMKVBytesAccessor)(void* data, size_t length);
+typedef void* (MMKVCALL* MMKVStringBoxAccessorU8)(const char* data, size_t length);
+typedef void (MMKVCALL* MMKVLogHandlerU8)(MMKVLogLevel level, const char* file, int line, const char* function, const char* message);
+typedef void (MMKVCALL* MMKVErrorHandlerU8)(const char* mmapID, MMKVErrorType errorType, MMKVRecoverStrategic* recoverStrategic);
+typedef void (MMKVCALL* MMKVContentChangedHandlerU8)(const char* mmapID);
