@@ -39,3 +39,40 @@ jobs:
         with:
           name: cmmkv-${{ matrix.rid }}
           path: ${{ github.workspace }}/cmmkv/output/${{ matrix.rid }}
+
+  build_cmmkv_on_linux:
+    strategy:
+      fail-fast: false
+      matrix:
+        rid: [linux-x64, linux-arm64]
+        include:
+        - rid: linux-x64
+        - rid: linux-arm64
+          toolchain: aarch64-linux-gnu
+    name: Build CMMKV (${{ matrix.rid }})
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+      - name: Get latest CMake and ninja
+        uses: lukka/get-cmake@latest
+      - name: Install Compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ${{ matrix.toolchain && format('gcc-{0}', matrix.toolchain) || 'gcc' }} ${{ matrix.toolchain && format('g++-{0}', matrix.toolchain) || 'g++' }}
+      - name: Build
+        env: 
+          CC: ${{ matrix.toolchain && format('{0}-gcc', matrix.toolchain) || 'gcc' }}
+          CXX: ${{ matrix.toolchain && format('{0}-g++', matrix.toolchain) || 'g++' }}
+          ASM: ${{ matrix.toolchain && format('{0}-as', matrix.toolchain) || 'as' }}
+          ASM-ATT: ${{ matrix.toolchain && format('{0}-as', matrix.toolchain) || 'as' }}
+        run: |
+          cd ${{ github.workspace }}/cmmkv
+          cmake . -G "Ninja" -DCMAKE_BUILD_TYPE=RelWithDebInfo
+          cmake --build . --config RelWithDebInfo
+      - uses: actions/upload-artifact@v3
+        with:
+          name: cmmkv-${{ matrix.rid }}
+          path: ${{ github.workspace }}/cmmkv/output/${{ matrix.rid }}
