@@ -40,8 +40,16 @@ jobs:
         run: |
           dotnet pack "ManagedMmkv/ManagedMmkv.csproj" -c Release -o ./MyPackages "/p:Version=${{ steps.get-version.outputs.version }}"
 
-      - name: Upload packages
-        uses: actions/upload-artifact@v3
+      - name: Publish to NuGet
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        if: "${{ env.NUGET_API_KEY != '' }}"
+        run: |
+          dotnet nuget push "MyPackages/*.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key $NUGET_API_KEY --skip-duplicate
+      
+      - name: Publish to GitHub releases
+        uses: softprops/action-gh-release@v1
         with:
-          name: MyPackages
-          path: ${{ github.workspace }}/MyPackages
+          files: |
+            ${{ github.workspace }}/MyPackages/*.nupkg
+            ${{ github.workspace }}/MyPackages/*.snupkg
