@@ -1,4 +1,4 @@
-using ManagedMmkv;
+using Alampy.ManagedMmkv;
 using NUnit.Framework;
 
 namespace ManagedMmkvTest

@@ -1,4 +1,4 @@
-﻿using ManagedMmkv.Interop;
+﻿using Alampy.ManagedMmkv.Interop;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,7 +6,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace ManagedMmkv
+namespace Alampy.ManagedMmkv
 {
     public class Mmkv : IDisposable
     {

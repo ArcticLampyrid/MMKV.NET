@@ -1,4 +1,4 @@
-﻿namespace ManagedMmkv
+﻿namespace Alampy.ManagedMmkv
 {
     public enum MmkvErrorType
     {

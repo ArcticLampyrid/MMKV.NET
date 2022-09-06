@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
-using static ManagedMmkv.Mmkv;
+using static Alampy.ManagedMmkv.Mmkv;
 
-namespace ManagedMmkv.Interop
+namespace Alampy.ManagedMmkv.Interop
 {
     internal static class NativeMethods
     {
