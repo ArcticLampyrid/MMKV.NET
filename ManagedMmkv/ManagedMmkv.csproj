@@ -4,13 +4,18 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Alampy.ManagedMmkv</RootNamespace>
     <PackageId>Alampy.ManagedMmkv</PackageId>
+    <Title>ManagedMmkv</Title>
+    <Description>Tencent MMKV bindings for modern .NET (unofficial)</Description>
+    <Tags>MMKV;key-value</Tags>
     <Authors>ArcticLampyrid</Authors>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Copyright>Copyright (c) 2022 ArcticLampyrid</Copyright>
+    <PackageReadmeFile>docs/README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="../README.md" Pack="true" PackagePath="/docs" />
     <Content Include="../cmmkv/output/**/*">
       <PackagePath>runtimes/%(RecursiveDir)/native/%(Filename)%(Extension)</PackagePath>
       <Pack>true</Pack>
