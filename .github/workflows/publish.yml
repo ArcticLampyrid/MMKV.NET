@@ -1,0 +1,47 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - 'v**'
+
+jobs:
+  publish:
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: false
+        
+      - name: Get version from tag
+        id: get-version
+        run: echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
+      
+      - name: Wait for build workflow
+        uses: ArcticLampyrid/action-wait-for-workflow@v1.0.1
+        with:
+          workflow: build.yml
+          sha: ${{ github.sha }}
+
+      - name: Download CMMKV binary (all)
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          workflow: build.yml
+          workflow_conclusion: success
+          commit: ${{ github.sha }}
+          name: cmmkv-all
+          path: ${{ github.workspace }}/cmmkv/output
+
+      - name: Pack
+        run: |
+          dotnet pack "ManagedMmkv/ManagedMmkv.csproj" -c Release -o ./MyPackages "/p:Version=${{ steps.get-version.outputs.version }}"
+
+      - name: Upload packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: MyPackages
+          path: ${{ github.workspace }}/MyPackages
