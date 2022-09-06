@@ -53,3 +53,9 @@ jobs:
           files: |
             ${{ github.workspace }}/MyPackages/*.nupkg
             ${{ github.workspace }}/MyPackages/*.snupkg
+
+      - name: Generate release notes
+        run: npx changelogithub
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
