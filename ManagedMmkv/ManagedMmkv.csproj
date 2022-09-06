@@ -4,6 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Alampy.ManagedMmkv</RootNamespace>
     <PackageId>Alampy.ManagedMmkv</PackageId>
+    <Authors>ArcticLampyrid</Authors>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>Copyright (c) 2022 ArcticLampyrid</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
