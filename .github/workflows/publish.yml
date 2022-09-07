@@ -20,7 +20,11 @@ jobs:
       - name: Get version from tag
         id: get-version
         run: echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
-      
+
+      - name: Restore
+        run: |
+          dotnet restore "ManagedMmkv/ManagedMmkv.csproj"
+
       - name: Wait for build workflow
         uses: ArcticLampyrid/action-wait-for-workflow@v1.0.1
         with:
