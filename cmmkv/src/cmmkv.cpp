@@ -605,4 +605,56 @@ extern "C"
             MMKV::unRegisterContentChangeHandler();
         }
     }
+
+    bool MMKVCALL mmkvBackupOneToDirectory(const char16_t* mmapID, const char16_t* dstPath, const char16_t* srcPath)
+    {
+        if (srcPath)
+        {
+            auto nativeSrcPath = strToPath(srcPath);
+            return MMKV::backupOneToDirectory(strToU8(mmapID), strToPath(dstPath), &nativeSrcPath);
+        } 
+        else 
+        {
+            return MMKV::backupOneToDirectory(strToU8(mmapID), strToPath(dstPath), nullptr);
+        }
+    }
+
+    size_t MMKVCALL mmkvBackupAllToDirectory(const char16_t* dstPath, const char16_t* srcPath)
+    {
+        if (srcPath)
+        {
+            auto nativeSrcPath = strToPath(srcPath);
+            return MMKV::backupAllToDirectory(strToPath(dstPath), &nativeSrcPath);
+        } 
+        else 
+        {
+            return MMKV::backupAllToDirectory(strToPath(dstPath), nullptr);
+        }
+    }
+
+    bool MMKVCALL mmkvRestoreOneFromDirectory(const char16_t* mmapID, const char16_t* srcDir, const char16_t* dstPath)
+    {
+        if (dstPath)
+        {
+            auto nativeDstPath = strToPath(dstPath);
+            return MMKV::restoreOneFromDirectory(strToU8(mmapID), strToPath(srcDir), &nativeDstPath);
+        } 
+        else 
+        {
+            return MMKV::restoreOneFromDirectory(strToU8(mmapID), strToPath(srcDir), nullptr);
+        }
+    }
+
+    size_t MMKVCALL mmkvRestoreAllFromDirectory(const char16_t* srcDir, const char16_t* dstPath)
+    {
+        if (dstPath)
+        {
+            auto nativeDstPath = strToPath(dstPath);
+            return MMKV::restoreAllFromDirectory(strToPath(srcDir), &nativeDstPath);
+        } 
+        else 
+        {
+            return MMKV::restoreAllFromDirectory(strToPath(srcDir), nullptr);
+        }
+    }
 }

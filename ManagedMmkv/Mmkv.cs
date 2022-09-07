@@ -1,4 +1,4 @@
-using Alampy.ManagedMmkv.Interop;
+﻿using Alampy.ManagedMmkv.Interop;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -103,6 +103,30 @@ namespace Alampy.ManagedMmkv
                 throw new Exception("Failed to create default mmkv");
             }
             return new Mmkv(kv);
+        }
+
+        public static bool BackupOneToDirectory(string mmapID, string dstPath, string srcPath = null)
+        {
+            EnsureMmkvInited();
+            return NativeMethods.mmkvBackupOneToDirectory(mmapID, dstPath, srcPath);
+        }
+
+        public static UIntPtr BackupAllToDirectory(string dstPath, string srcPath = null)
+        {
+            EnsureMmkvInited();
+            return NativeMethods.mmkvBackupAllToDirectory(dstPath, srcPath);
+        }
+
+        public static bool RestoreOneFromDirectory(string mmapID, string srcPath, string dstPath = null)
+        {
+            EnsureMmkvInited();
+            return NativeMethods.mmkvRestoreOneFromDirectory(mmapID, srcPath, dstPath);
+        }
+
+        public static UIntPtr RestoreAllFromDirectory(string srcPath, string dstPath = null)
+        {
+            EnsureMmkvInited();
+            return NativeMethods.mmkvRestoreAllFromDirectory(srcPath, dstPath);
         }
 
         private IntPtr kv;

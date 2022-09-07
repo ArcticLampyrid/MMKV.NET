@@ -42,3 +42,7 @@ mmkvClose
 mmkvSetLogHandlerU8
 mmkvSetErrorHandlerU8
 mmkvSetContentChangedHandlerU8
+mmkvBackupOneToDirectory
+mmkvBackupAllToDirectory
+mmkvRestoreOneFromDirectory
+mmkvRestoreAllFromDirectory
