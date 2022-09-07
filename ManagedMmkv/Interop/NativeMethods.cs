@@ -153,6 +153,9 @@ namespace Alampy.ManagedMmkv.Interop
         public static extern void mmkvRemoveValueForKey(IntPtr kv, string key);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        public static extern bool mmkvRemoveValuesForKeys(IntPtr kv, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] string[] keys, UIntPtr length);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         public static extern void mmkvClearAll(IntPtr kv);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]

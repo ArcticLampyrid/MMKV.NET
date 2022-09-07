@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Alampy.ManagedMmkv;
 using NUnit.Framework;
@@ -113,6 +114,36 @@ namespace ManagedMmkvTest
                 {
                     TestContext.Out.WriteLine("Failed to delete backup directory: {0}", e);
                 }
+            }
+        }
+
+        [Test]
+        public void RemoveAll()
+        {
+            using (var mmkv = Mmkv.Default(MmkvMode.SingleProcess))
+            {
+                mmkv.Clear();
+                mmkv.Set("1", 1);
+                mmkv.Set("2", 2);
+                mmkv.Set("3", 3);
+                mmkv.Set("4", 4);
+                mmkv.Set("5", 5);
+                mmkv.RemoveAll(new string[] { "1", "2" });
+                Assert.Multiple(() =>
+                {
+                    Assert.That(mmkv.ContainsKey("1"), Is.False);
+                    Assert.That(mmkv.ContainsKey("2"), Is.False);
+                    Assert.That(mmkv.ContainsKey("3"), Is.True);
+                    Assert.That(mmkv.ContainsKey("4"), Is.True);
+                    Assert.That(mmkv.ContainsKey("5"), Is.True);
+                });
+                mmkv.RemoveAll(new List<string> { "3", "4" });
+                Assert.Multiple(() =>
+                {
+                    Assert.That(mmkv.ContainsKey("3"), Is.False);
+                    Assert.That(mmkv.ContainsKey("4"), Is.False);
+                    Assert.That(mmkv.ContainsKey("5"), Is.True);
+                });
             }
         }
     }
