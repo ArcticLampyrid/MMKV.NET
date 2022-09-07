@@ -30,6 +30,7 @@ mmkvCount
 mmkvTotalSize
 mmkvActualSize
 mmkvRemoveValueForKey
+mmkvRemoveValuesForKeys
 mmkvClearAll
 mmkvSync
 mmkvIsFileValid

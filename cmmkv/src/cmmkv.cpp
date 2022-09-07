@@ -44,6 +44,17 @@ inline MMKVStringBox* mmkvStringBoxNewInternal(std::string&& str)
     return reinterpret_cast<MMKVStringBox*>(new std::string(std::move(str)));
 }
 
+inline std::vector<std::string> stringArrayToVector(const char16_t** strings, size_t length)
+{
+    std::vector<std::string> result;
+    result.reserve(length);
+    for (size_t i = 0; i < length; i++)
+    {
+        result.push_back(strToU8(strings[i]));
+    }
+    return result;
+}
+
 extern "C"
 {
     void MMKVCALL mmkvInit(const char16_t* rootDir, MMKVLogLevel logLevel)
@@ -440,6 +451,14 @@ extern "C"
         if (kv)
         {
             kv->removeValueForKey(strToU8(key));
+        }
+    }
+
+    void MMKVCALL mmkvRemoveValuesForKeys(MMKV* kv, const char16_t** keys, size_t length)
+    {
+        if (kv)
+        {
+            kv->removeValuesForKeys(stringArrayToVector(keys, length));
         }
     }
 

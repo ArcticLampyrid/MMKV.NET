@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -36,7 +37,7 @@ namespace Alampy.ManagedMmkv
 
         private static readonly object _init_lock = new object();
         private static volatile bool init = false;
-        public static MmkvLogLevel LogLevel 
+        public static MmkvLogLevel LogLevel
         {
             set
             {
@@ -217,7 +218,7 @@ namespace Alampy.ManagedMmkv
                 throw new InvalidOperationException($"Failed to set {key} to {value}");
             }
         }
-#endregion
+        #endregion
 
         #region TrySet
         public bool TrySet(string key, bool value) => NativeMethods.mmkvSetBool(kv, key, value);
@@ -411,6 +412,17 @@ namespace Alampy.ManagedMmkv
         public void Remove(string key)
         {
             NativeMethods.mmkvRemoveValueForKey(kv, key);
+        }
+
+        public void RemoveAll(string[] key)
+        {
+            if ((key?.LongLength ?? 0) == 0) return;
+            NativeMethods.mmkvRemoveValuesForKeys(kv, key, (UIntPtr)key.LongLength);
+        }
+
+        public void RemoveAll(IEnumerable<string> keys)
+        {
+            RemoveAll(keys?.ToArray());
         }
 
         public void TrimExcess()
