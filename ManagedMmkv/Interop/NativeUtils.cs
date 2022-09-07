@@ -66,8 +66,14 @@ namespace Alampy.ManagedMmkv.Interop
             }
         }
 
-        private static IntPtr InternalAccessStringArray(string[] data, UIntPtr length)
+        private static IntPtr InternalAccessStringArray(IntPtr[] ptrs, UIntPtr length)
         {
+            var intLength = checked((int)length);
+            var data = new string[intLength];
+            for (var i = 0; i < intLength; i++)
+            {
+                data[i] = Marshal.PtrToStringUTF8(ptrs[i]);
+            }
             return (IntPtr)GCHandle.Alloc(data);
         }
         private static readonly NativeMethods.MmkvStringArrayAccessorU8 stringArrayAccessor = new NativeMethods.MmkvStringArrayAccessorU8(InternalAccessStringArray);

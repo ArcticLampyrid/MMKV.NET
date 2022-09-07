@@ -15,7 +15,7 @@ namespace Alampy.ManagedMmkv.Interop
         public delegate IntPtr MmkvBytesAccessor(IntPtr ptr, UIntPtr length);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr MmkvStringArrayAccessorU8([MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPUTF8Str, SizeParamIndex = 1)] string[] data, UIntPtr length);
+        public delegate IntPtr MmkvStringArrayAccessorU8([MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] IntPtr[] data, UIntPtr length);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate void MmkvLogHandlerU8(MmkvLogLevel level, [MarshalAs(UnmanagedType.LPUTF8Str)] string file, int line, [MarshalAs(UnmanagedType.LPUTF8Str)] string function, [MarshalAs(UnmanagedType.LPUTF8Str)] string message);
