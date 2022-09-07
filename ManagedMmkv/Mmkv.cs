@@ -1,4 +1,4 @@
-﻿using Alampy.ManagedMmkv.Interop;
+using Alampy.ManagedMmkv.Interop;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -392,6 +392,11 @@ namespace Alampy.ManagedMmkv
         public void TrimExcess()
         {
             NativeMethods.mmkvTrim(kv);
+        }
+
+        public void Clear()
+        {
+            NativeMethods.mmkvClearAll(kv);
         }
 
         public void Flush(MmkvSyncFlag flag)

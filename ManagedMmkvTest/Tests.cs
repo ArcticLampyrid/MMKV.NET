@@ -21,6 +21,7 @@ namespace ManagedMmkvTest
         {
             using (var mmkv = Mmkv.Default(MmkvMode.SingleProcess))
             {
+                mmkv.Clear();
                 mmkv.Set("test", 123);
                 Assert.That(mmkv.GetInt32("test"), Is.EqualTo(123));
             }
