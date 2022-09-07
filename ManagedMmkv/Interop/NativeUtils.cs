@@ -82,7 +82,7 @@ namespace Alampy.ManagedMmkv.Interop
         public static string[] mmkvGetStringArray(IntPtr kv, string key, string[] defaultValue, out bool hasValue)
 #pragma warning restore IDE1006 // 命名样式
         {
-            var handlePtr = NativeMethods.mmkvAccessSringArray(kv, key, out hasValue, stringArrayAccessor);
+            var handlePtr = NativeMethods.mmkvAccessStringArray(kv, key, out hasValue, stringArrayAccessor);
             if (handlePtr == IntPtr.Zero)
             {
                 if (!hasValue)

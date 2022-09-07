@@ -144,10 +144,10 @@ namespace Alampy.ManagedMmkv.Interop
         public static extern bool mmkvSetStringArray(IntPtr kv, string key, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] string[] data, UIntPtr length);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
-        public static extern IntPtr mmkvAccessSringArray(IntPtr kv, string key, [MarshalAs(UnmanagedType.I1)] out bool hasValue, MmkvStringArrayAccessorU8 accessor);
+        public static extern IntPtr mmkvAccessStringArray(IntPtr kv, string key, [MarshalAs(UnmanagedType.I1)] out bool hasValue, MmkvStringArrayAccessorU8 accessor);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
-        public static extern IntPtr mmkvAccessSringArray(IntPtr kv, string key, IntPtr hasValue, MmkvStringArrayAccessorU8 accessor);
+        public static extern IntPtr mmkvAccessStringArray(IntPtr kv, string key, IntPtr hasValue, MmkvStringArrayAccessorU8 accessor);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         [return: MarshalAs(UnmanagedType.I1)]
