@@ -412,7 +412,7 @@ namespace Alampy.ManagedMmkv
             value = NativeUtils.mmkvGetBytes(kv, key, default, out var hasValue);
             return hasValue;
         }
-        public bool TryGetStringArrau(string key, out string[] value)
+        public bool TryGetStringArray(string key, out string[] value)
         {
             value = NativeUtils.mmkvGetStringArray(kv, key, default, out var hasValue);
             return hasValue;
