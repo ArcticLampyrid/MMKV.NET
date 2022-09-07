@@ -221,7 +221,7 @@ namespace Alampy.ManagedMmkv
         /// <exception cref="InvalidOperationException"></exception>
         public void Set(string key, string[] value)
         {
-            var result = NativeMethods.mmkvSetSringArray(kv, key, value, checked((UIntPtr)(value?.LongLength ?? 0)));
+            var result = NativeMethods.mmkvSetStringArray(kv, key, value, checked((UIntPtr)(value?.LongLength ?? 0)));
             if (!result)
             {
                 throw new InvalidOperationException($"Failed to set {key} to {value}");
@@ -239,7 +239,7 @@ namespace Alampy.ManagedMmkv
         public bool TrySet(string key, double value) => NativeMethods.mmkvSetDouble(kv, key, value);
         public bool TrySet(string key, string value) => NativeMethods.mmkvSetString(kv, key, value);
         public bool TrySet(string key, byte[] value) => NativeMethods.mmkvSetBytes(kv, key, value, checked((UIntPtr)value.LongLength));
-        public bool TrySet(string key, string[] value) => NativeMethods.mmkvSetSringArray(kv, key, value, checked((UIntPtr)(value?.LongLength ?? 0)));
+        public bool TrySet(string key, string[] value) => NativeMethods.mmkvSetStringArray(kv, key, value, checked((UIntPtr)(value?.LongLength ?? 0)));
         #endregion
 
         #region Get
