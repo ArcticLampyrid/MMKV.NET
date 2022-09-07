@@ -65,5 +65,35 @@ namespace Alampy.ManagedMmkv.Interop
                 handle.Free();
             }
         }
+
+        private static IntPtr InternalAccessStringArray(string[] data, UIntPtr length)
+        {
+            return (IntPtr)GCHandle.Alloc(data);
+        }
+        private static readonly NativeMethods.MmkvStringArrayAccessorU8 stringArrayAccessor = new NativeMethods.MmkvStringArrayAccessorU8(InternalAccessStringArray);
+
+#pragma warning disable IDE1006 // 命名样式
+        public static string[] mmkvGetStringArray(IntPtr kv, string key, string[] defaultValue, out bool hasValue)
+#pragma warning restore IDE1006 // 命名样式
+        {
+            var handlePtr = NativeMethods.mmkvAccessSringArray(kv, key, out hasValue, stringArrayAccessor);
+            if (handlePtr == IntPtr.Zero)
+            {
+                if (!hasValue)
+                {
+                    return defaultValue;
+                }
+                return null;
+            }
+            var handle = GCHandle.FromIntPtr(handlePtr);
+            try
+            {
+                return (string[])handle.Target;
+            }
+            finally
+            {
+                handle.Free();
+            }
+        }
     }
 }

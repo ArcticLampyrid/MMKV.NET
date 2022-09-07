@@ -15,6 +15,9 @@ namespace Alampy.ManagedMmkv.Interop
         public delegate IntPtr MmkvBytesAccessor(IntPtr ptr, UIntPtr length);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+        public delegate IntPtr MmkvStringArrayAccessorU8([MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPUTF8Str, SizeParamIndex = 1)] string[] data, UIntPtr length);
+
+        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate void MmkvLogHandlerU8(MmkvLogLevel level, [MarshalAs(UnmanagedType.LPUTF8Str)] string file, int line, [MarshalAs(UnmanagedType.LPUTF8Str)] string function, [MarshalAs(UnmanagedType.LPUTF8Str)] string message);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
@@ -135,6 +138,16 @@ namespace Alampy.ManagedMmkv.Interop
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         public static extern IntPtr mmkvAccessBytes(IntPtr kv, string key, IntPtr hasValue, MmkvBytesAccessor accessor);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static extern bool mmkvSetSringArray(IntPtr kv, string key, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPUTF8Str, SizeParamIndex = 3)] string[] data, UIntPtr length);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        public static extern IntPtr mmkvAccessSringArray(IntPtr kv, string key, [MarshalAs(UnmanagedType.I1)] out bool hasValue, MmkvStringArrayAccessorU8 accessor);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        public static extern IntPtr mmkvAccessSringArray(IntPtr kv, string key, IntPtr hasValue, MmkvStringArrayAccessorU8 accessor);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         [return: MarshalAs(UnmanagedType.I1)]
