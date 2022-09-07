@@ -194,5 +194,19 @@ namespace Alampy.ManagedMmkv.Interop
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         public static extern void mmkvSetContentChangedHandlerU8(MmkvContentChangedHandlerU8 kv);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static extern bool mmkvBackupOneToDirectory(string mmapID, string dstPath, string srcPath);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        public static extern UIntPtr mmkvBackupAllToDirectory(string dstPath, string srcPath);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static extern bool mmkvRestoreOneFromDirectory(string mmapID, string srcPath, string dstPath);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        public static extern UIntPtr mmkvRestoreAllFromDirectory(string srcPath, string dstPath);
     }
 }
