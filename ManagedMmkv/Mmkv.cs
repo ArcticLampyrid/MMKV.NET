@@ -218,6 +218,15 @@ namespace Alampy.ManagedMmkv
                 throw new InvalidOperationException($"Failed to set {key} to {value}");
             }
         }
+        /// <exception cref="InvalidOperationException"></exception>
+        public void Set(string key, string[] value)
+        {
+            var result = NativeMethods.mmkvSetStringArray(kv, key, value, checked((UIntPtr)(value?.LongLength ?? 0)));
+            if (!result)
+            {
+                throw new InvalidOperationException($"Failed to set {key} to {value}");
+            }
+        }
         #endregion
 
         #region TrySet
@@ -230,6 +239,7 @@ namespace Alampy.ManagedMmkv
         public bool TrySet(string key, double value) => NativeMethods.mmkvSetDouble(kv, key, value);
         public bool TrySet(string key, string value) => NativeMethods.mmkvSetString(kv, key, value);
         public bool TrySet(string key, byte[] value) => NativeMethods.mmkvSetBytes(kv, key, value, checked((UIntPtr)value.LongLength));
+        public bool TrySet(string key, string[] value) => NativeMethods.mmkvSetStringArray(kv, key, value, checked((UIntPtr)(value?.LongLength ?? 0)));
         #endregion
 
         #region Get
@@ -323,6 +333,16 @@ namespace Alampy.ManagedMmkv
             }
             return result;
         }
+        /// <exception cref="KeyNotFoundException"></exception>
+        public string[] GetStringArray(string key)
+        {
+            var result = NativeUtils.mmkvGetStringArray(kv, key, default, out var hasValue);
+            if (!hasValue)
+            {
+                throw new Exception($"Failed to get key ${key}");
+            }
+            return result;
+        }
         #endregion
 
         #region GetOrDefault
@@ -343,6 +363,7 @@ namespace Alampy.ManagedMmkv
             return NativeUtils.FinalizeStringBox(result);
         }
         public byte[] GetBytesOrDefault(string key, byte[] defaultValue = default) => NativeUtils.mmkvGetBytes(kv, key, defaultValue, out _);
+        public string[] GetStringArrayOrDefault(string key, string[] defaultValue = default) => NativeUtils.mmkvGetStringArray(kv, key, defaultValue, out _);
         #endregion
 
         #region TryGet
@@ -389,6 +410,11 @@ namespace Alampy.ManagedMmkv
         public bool TryGetBytes(string key, out byte[] value)
         {
             value = NativeUtils.mmkvGetBytes(kv, key, default, out var hasValue);
+            return hasValue;
+        }
+        public bool TryGetStringArray(string key, out string[] value)
+        {
+            value = NativeUtils.mmkvGetStringArray(kv, key, default, out var hasValue);
             return hasValue;
         }
         #endregion

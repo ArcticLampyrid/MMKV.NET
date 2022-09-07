@@ -25,6 +25,8 @@ mmkvSetString
 mmkvGetString
 mmkvSetBytes
 mmkvAccessBytes
+mmkvSetStringArray
+mmkvAccessStringArray
 mmkvContainsKey
 mmkvCount
 mmkvTotalSize

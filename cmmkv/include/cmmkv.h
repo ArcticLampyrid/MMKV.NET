@@ -30,6 +30,7 @@ class MMKV;
 #endif
 typedef void* (MMKVCALL* MMKVBytesAccessor)(void* data, size_t length);
 typedef void* (MMKVCALL* MMKVStringBoxAccessorU8)(const char* data, size_t length);
+typedef void* (MMKVCALL* MMKVStringArrayAccessorU8)(const char** data, size_t length);
 typedef void (MMKVCALL* MMKVLogHandlerU8)(MMKVLogLevel level, const char* file, int line, const char* function, const char* message);
 typedef void (MMKVCALL* MMKVErrorHandlerU8)(const char* mmapID, MMKVErrorType errorType, MMKVRecoverStrategic* recoverStrategic);
 typedef void (MMKVCALL* MMKVContentChangedHandlerU8)(const char* mmapID);

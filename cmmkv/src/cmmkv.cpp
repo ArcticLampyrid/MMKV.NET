@@ -410,6 +410,48 @@ extern "C"
         return nullptr;
     }
 
+    bool MMKVCALL mmkvSetStringArray(MMKV* kv, const char16_t* key, const char16_t** strings, size_t length)
+    {
+        if (kv)
+        {
+            return kv->set(stringArrayToVector(strings, length), strToU8(key));
+        }
+        return false;
+    }
+
+    void* MMKVCALL mmkvAccessStringArray(MMKV* kv, const char16_t* key, bool* hasValue, MMKVStringArrayAccessorU8 accessor)
+    {
+        if (kv)
+        {
+            std::vector<std::string> result;
+            if (kv->getVector(strToU8(key), result)) 
+            {
+                if (hasValue)
+                {
+                    *hasValue = true;
+                }
+                size_t length = result.size();
+                if (length == 0)
+                {
+                    return accessor(nullptr, length);
+                }
+                // Skip out-of-bounds checking for performance
+                auto pBegin = result.data();
+                std::unique_ptr<const char*[]> lpArray = std::make_unique<const char*[]>(length);
+                for (size_t i = 0; i < length; i++)
+                {
+                    lpArray[i] = pBegin[i].c_str();
+                }
+                return accessor(lpArray.get(), length);
+            }
+        }
+        if (hasValue)
+        {
+            *hasValue = false;
+        }
+        return nullptr;
+    }
+
     bool MMKVCALL mmkvContainsKey(MMKV* kv, const char16_t* key)
     {
         if (kv)
