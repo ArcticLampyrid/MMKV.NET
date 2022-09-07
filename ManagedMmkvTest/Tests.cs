@@ -146,5 +146,27 @@ namespace ManagedMmkvTest
                 });
             }
         }
+
+        [Test]
+        public void StringArray()
+        {
+            using (var mmkv = Mmkv.Default(MmkvMode.SingleProcess))
+            {
+                mmkv.Clear();
+                mmkv.Set("strings", new String[] { "a", "b", "c" });
+                Assert.Multiple(() =>
+                {
+                    Assert.That(mmkv.GetStringArray("strings"), Is.EquivalentTo(new String[] { "a", "b", "c" }));
+                    Assert.That(mmkv.GetStringArrayOrDefault("strings"), Is.EquivalentTo(new String[] { "a", "b", "c" }));
+                    Assert.That(mmkv.TryGetStringArray("strings", out var strings), Is.True);
+                    Assert.That(strings, Is.EquivalentTo(new String[] { "a", "b", "c" }));
+
+                    Assert.Catch(() => mmkv.GetStringArray("strings1"));
+                    Assert.That(mmkv.GetStringArrayOrDefault("strings1"), Is.Null);
+                    Assert.That(mmkv.GetStringArrayOrDefault("strings1", new String[] { "" }), Is.EquivalentTo(new String[] { "" }));
+                    Assert.That(mmkv.TryGetStringArray("strings1", out _), Is.False);
+                });
+            }
+        }
     }
 }
