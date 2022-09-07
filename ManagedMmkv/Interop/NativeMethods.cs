@@ -184,6 +184,9 @@ namespace Alampy.ManagedMmkv.Interop
         public static extern void mmkvClose(IntPtr kv);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        public static extern void mmkvSetLogLevel(MmkvLogLevel level);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         public static extern void mmkvSetLogHandlerU8(MmkvLogHandlerU8 kv);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]

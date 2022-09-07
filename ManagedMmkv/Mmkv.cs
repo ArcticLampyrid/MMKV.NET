@@ -36,6 +36,14 @@ namespace Alampy.ManagedMmkv
 
         private static readonly object _init_lock = new object();
         private static volatile bool init = false;
+        public static MmkvLogLevel LogLevel 
+        {
+            set
+            {
+                EnsureMmkvInited(value);
+                NativeMethods.mmkvSetLogLevel(value);
+            }
+        }
         public static void Init(string rootPath, MmkvLogLevel logLevel = MmkvLogLevel.Info)
         {
             lock (_init_lock)
@@ -51,7 +59,7 @@ namespace Alampy.ManagedMmkv
         {
             Init(Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "mmkv"), logLevel);
         }
-        public static void EnsureMmkvInited()
+        public static void EnsureMmkvInited(MmkvLogLevel initialLevel = MmkvLogLevel.Info)
         {
             if (init) // Check without lock first
             {
@@ -61,7 +69,7 @@ namespace Alampy.ManagedMmkv
             {
                 if (!init)
                 {
-                    Init();
+                    Init(initialLevel);
                 }
             }
         }
