@@ -49,3 +49,4 @@ mmkvBackupOneToDirectory
 mmkvBackupAllToDirectory
 mmkvRestoreOneFromDirectory
 mmkvRestoreAllFromDirectory
+mmkvInitWithLogHandler

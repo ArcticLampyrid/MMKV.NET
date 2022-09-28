@@ -718,4 +718,10 @@ extern "C"
             return MMKV::restoreAllFromDirectory(strToPath(srcDir), nullptr);
         }
     }
+
+    void MMKVCALL mmkvInitWithLogHandler(const char16_t* rootDir, MMKVLogLevel logLevel, MMKVLogHandlerU8 handler)
+    {
+        myLogHandlerU8 = handler;
+        MMKV::initializeMMKV(strToPath(rootDir), logLevel, &handleLog);
+    }
 }

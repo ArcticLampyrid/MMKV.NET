@@ -49,8 +49,7 @@ namespace Alampy.ManagedMmkv
         {
             lock (_init_lock)
             {
-                NativeMethods.mmkvInit(rootPath, logLevel);
-                NativeMethods.mmkvSetLogHandlerU8(MyNativeLogHandler);
+                NativeMethods.mmkvInitWithLogHandler(rootPath, logLevel, MyNativeLogHandler);
                 NativeMethods.mmkvSetErrorHandlerU8(MyNativeErrorHandler);
                 NativeMethods.mmkvSetContentChangedHandlerU8(MyNativeContentChangedHandler);
                 init = true;
