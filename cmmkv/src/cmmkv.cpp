@@ -3,6 +3,7 @@
 #include <string>
 #include <locale>
 #include <codecvt>
+#include <memory>
 
 template<class Facet>
 struct deletable_facet : Facet

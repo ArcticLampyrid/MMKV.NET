@@ -22,7 +22,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: 'recursive'
       - name: Get latest CMake and ninja
@@ -37,7 +37,7 @@ jobs:
           cd ${{ github.workspace }}/cmmkv
           cmake . -G "Ninja" -DCMAKE_BUILD_TYPE=RelWithDebInfo
           cmake --build . --config RelWithDebInfo
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: cmmkv-${{ matrix.rid }}
           path: ${{ github.workspace }}/cmmkv/output/${{ matrix.rid }}
@@ -58,7 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: 'recursive'
       - name: Get latest CMake and ninja
@@ -72,7 +72,7 @@ jobs:
           cd ${{ github.workspace }}/cmmkv
           cmake . -G "Ninja" -DCMAKE_BUILD_TYPE=RelWithDebInfo ${{ matrix.toolchain_file && format('-DCMAKE_TOOLCHAIN_FILE={0}', matrix.toolchain_file) || '' }}
           cmake --build . --config RelWithDebInfo
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: cmmkv-${{ matrix.rid }}
           path: ${{ github.workspace }}/cmmkv/output/${{ matrix.rid }}
@@ -88,7 +88,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: 'recursive'
       - name: Get latest CMake and ninja
@@ -98,7 +98,7 @@ jobs:
           cd ${{ github.workspace }}/cmmkv
           cmake . -G "Ninja" -DCMAKE_BUILD_TYPE=RelWithDebInfo ${{ matrix.toolchain_file && format('-DCMAKE_TOOLCHAIN_FILE={0}', matrix.toolchain_file) || '' }}
           cmake --build . --config RelWithDebInfo
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: cmmkv-${{ matrix.rid }}
           path: ${{ github.workspace }}/cmmkv/output/${{ matrix.rid }}
@@ -114,46 +114,46 @@ jobs:
       - env:
           rid: win-x86
         name: Download CMMKV binary (${{ env.rid }})
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: cmmkv-${{ env.rid }}
           path: ${{ github.workspace }}/cmmkv/output/${{ env.rid }}
       - env:
           rid: win-x64
         name: Download CMMKV binary (${{ env.rid }})
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: cmmkv-${{ env.rid }}
           path: ${{ github.workspace }}/cmmkv/output/${{ env.rid }}
       - env:
           rid: win-arm64
         name: Download CMMKV binary (${{ env.rid }})
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: cmmkv-${{ env.rid }}
           path: ${{ github.workspace }}/cmmkv/output/${{ env.rid }}
       - env:
           rid: linux-x64
         name: Download CMMKV binary (${{ env.rid }})
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: cmmkv-${{ env.rid }}
           path: ${{ github.workspace }}/cmmkv/output/${{ env.rid }}
       - env:
           rid: linux-arm64
         name: Download CMMKV binary (${{ env.rid }})
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: cmmkv-${{ env.rid }}
           path: ${{ github.workspace }}/cmmkv/output/${{ env.rid }}
       - env:
           rid: osx-x64
         name: Download CMMKV binary (${{ env.rid }})
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: cmmkv-${{ env.rid }}
           path: ${{ github.workspace }}/cmmkv/output/${{ env.rid }}
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: cmmkv-all
           path: ${{ github.workspace }}/cmmkv/output
@@ -169,11 +169,11 @@ jobs:
       - pack_cmmkv
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: false
       - name: Download CMMKV binary (all)
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: cmmkv-all
           path: ${{ github.workspace }}/cmmkv/output
@@ -181,7 +181,7 @@ jobs:
         run: |
           dotnet pack "ManagedMmkv/ManagedMmkv.csproj" -c ${{ matrix.config }} -o ./MyPackages "/p:Version=100.0.0.0-Test-${{ matrix.config }}"
       - name: Upload packages for testing
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: MyPackages-Test-${{ matrix.config }}
           path: ${{ github.workspace }}/MyPackages
@@ -198,11 +198,11 @@ jobs:
         os: [windows-latest, ubuntu-latest, macos-latest]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: false
       - name: Download packages for testing
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: MyPackages-Test-${{ matrix.config }}
           path: ${{ github.workspace }}/MyPackages

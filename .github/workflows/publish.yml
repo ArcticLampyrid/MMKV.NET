@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: false
           fetch-depth: 0
@@ -26,13 +26,13 @@ jobs:
           dotnet restore "ManagedMmkv/ManagedMmkv.csproj"
 
       - name: Wait for build workflow
-        uses: ArcticLampyrid/action-wait-for-workflow@v1.0.1
+        uses: ArcticLampyrid/action-wait-for-workflow@v1.2.0
         with:
           workflow: build.yml
-          sha: ${{ github.sha }}
+          sha: 'auto'
 
       - name: Download CMMKV binary (all)
-        uses: dawidd6/action-download-artifact@v2
+        uses: dawidd6/action-download-artifact@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           workflow: build.yml
@@ -51,16 +51,17 @@ jobs:
         if: "${{ env.NUGET_API_KEY != '' }}"
         run: |
           dotnet nuget push "MyPackages/*.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key $NUGET_API_KEY --skip-duplicate
-      
-      - name: Publish to GitHub releases
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            ${{ github.workspace }}/MyPackages/*.nupkg
-            ${{ github.workspace }}/MyPackages/*.snupkg
 
       - name: Generate release notes
-        run: npx changelogithub
+        run: npx changelogithub -d
         continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Publish to GitHub releases
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          draft: false
+          omitBody: true
+          artifacts: MyPackages/*.nupkg,MyPackages/*.snupkg
