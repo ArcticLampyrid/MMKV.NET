@@ -40,6 +40,25 @@ namespace ManagedMmkvTest
         }
 
         [Test]
+        public void WithExpire()
+        {
+            using (var mmkv = Mmkv.WithID("test-with-expire", MmkvMode.SingleProcess))
+            {
+                if (!mmkv.IsExpirationEnabled)
+                {
+                    mmkv.EnableAutoKeyExpire(Mmkv.ExpireNever);
+                }
+                Assert.That(mmkv.IsExpirationEnabled, Is.True);
+                mmkv.Clear();
+                mmkv.Set("test", 123, 1);
+                Assert.That(mmkv.GetInt32("test"), Is.EqualTo(123));
+                System.Threading.Thread.Sleep(2000);
+                Assert.That(mmkv.ContainsKey("test"), Is.False);
+                Assert.Catch(() => mmkv.GetInt32("test"));
+            }
+        }
+
+        [Test]
         public void BackupOne()
         {
             var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());

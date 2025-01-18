@@ -19,6 +19,8 @@ namespace Alampy.ManagedMmkv
         public static event ErrorHandler OnError;
         public static event ContentChangedHandler OnContentChanged;
 
+        public const uint ExpireNever = 0;
+
         private static readonly NativeMethods.MmkvLogHandlerU8 MyNativeLogHandler = HandleLogFromNative;
         private static void HandleLogFromNative(MmkvLogLevel level, string file, int line, string function, string message)
         {
@@ -135,6 +137,19 @@ namespace Alampy.ManagedMmkv
         {
             this.kv = kv;
         }
+
+        public bool IsExpirationEnabled => NativeMethods.mmkvIsExpirationEnabled(kv);
+
+        public void EnableAutoKeyExpire(uint defaultExpireDuration)
+        {
+            NativeMethods.mmkvEnableAutoKeyExpire(kv, defaultExpireDuration);
+        }
+
+        public void DisableAutoKeyExpire()
+        {
+            NativeMethods.mmkvDisableAutoKeyExpire(kv);
+        }
+
         #region Set
         /// <exception cref="InvalidOperationException"></exception>
         public void Set(string key, bool value)
@@ -143,6 +158,15 @@ namespace Alampy.ManagedMmkv
             if (!result)
             {
                 throw new InvalidOperationException($"Failed to set {key} to {value}");
+            }
+        }
+        /// <exception cref="InvalidOperationException"></exception>
+        public void Set(string key, bool value, uint expireDuration)
+        {
+            var result = NativeMethods.mmkvSetBoolExpirable(kv, key, value, expireDuration);
+            if (!result)
+            {
+                throw new InvalidOperationException($"Failed to set {key} to {value} with expire duration {expireDuration}");
             }
         }
         /// <exception cref="InvalidOperationException"></exception>
@@ -155,12 +179,30 @@ namespace Alampy.ManagedMmkv
             }
         }
         /// <exception cref="InvalidOperationException"></exception>
+        public void Set(string key, int value, uint expireDuration)
+        {
+            var result = NativeMethods.mmkvSetInt32Expirable(kv, key, value, expireDuration);
+            if (!result)
+            {
+                throw new InvalidOperationException($"Failed to set {key} to {value} with expire duration {expireDuration}");
+            }
+        }
+        /// <exception cref="InvalidOperationException"></exception>
         public void Set(string key, long value)
         {
             var result = NativeMethods.mmkvSetInt64(kv, key, value);
             if (!result)
             {
                 throw new InvalidOperationException($"Failed to set {key} to {value}");
+            }
+        }
+        /// <exception cref="InvalidOperationException"></exception>
+        public void Set(string key, long value, uint expireDuration)
+        {
+            var result = NativeMethods.mmkvSetInt64Expirable(kv, key, value, expireDuration);
+            if (!result)
+            {
+                throw new InvalidOperationException($"Failed to set {key} to {value} with expire duration {expireDuration}");
             }
         }
         /// <exception cref="InvalidOperationException"></exception>
@@ -173,12 +215,30 @@ namespace Alampy.ManagedMmkv
             }
         }
         /// <exception cref="InvalidOperationException"></exception>
+        public void Set(string key, uint value, uint expireDuration)
+        {
+            var result = NativeMethods.mmkvSetUInt32Expirable(kv, key, value, expireDuration);
+            if (!result)
+            {
+                throw new InvalidOperationException($"Failed to set {key} to {value} with expire duration {expireDuration}");
+            }
+        }
+        /// <exception cref="InvalidOperationException"></exception>
         public void Set(string key, ulong value)
         {
             var result = NativeMethods.mmkvSetUInt64(kv, key, value);
             if (!result)
             {
                 throw new InvalidOperationException($"Failed to set {key} to {value}");
+            }
+        }
+        /// <exception cref="InvalidOperationException"></exception>
+        public void Set(string key, ulong value, uint expireDuration)
+        {
+            var result = NativeMethods.mmkvSetUInt64Expirable(kv, key, value, expireDuration);
+            if (!result)
+            {
+                throw new InvalidOperationException($"Failed to set {key} to {value} with expire duration {expireDuration}");
             }
         }
         /// <exception cref="InvalidOperationException"></exception>
@@ -191,12 +251,30 @@ namespace Alampy.ManagedMmkv
             }
         }
         /// <exception cref="InvalidOperationException"></exception>
+        public void Set(string key, float value, uint expireDuration)
+        {
+            var result = NativeMethods.mmkvSetFloatExpirable(kv, key, value, expireDuration);
+            if (!result)
+            {
+                throw new InvalidOperationException($"Failed to set {key} to {value} with expire duration {expireDuration}");
+            }
+        }
+        /// <exception cref="InvalidOperationException"></exception>
         public void Set(string key, double value)
         {
             var result = NativeMethods.mmkvSetDouble(kv, key, value);
             if (!result)
             {
                 throw new InvalidOperationException($"Failed to set {key} to {value}");
+            }
+        }
+        /// <exception cref="InvalidOperationException"></exception>
+        public void Set(string key, double value, uint expireDuration)
+        {
+            var result = NativeMethods.mmkvSetDoubleExpirable(kv, key, value, expireDuration);
+            if (!result)
+            {
+                throw new InvalidOperationException($"Failed to set {key} to {value} with expire duration {expireDuration}");
             }
         }
         /// <exception cref="InvalidOperationException"></exception>
@@ -209,6 +287,15 @@ namespace Alampy.ManagedMmkv
             }
         }
         /// <exception cref="InvalidOperationException"></exception>
+        public void Set(string key, string value, uint expireDuration)
+        {
+            var result = NativeMethods.mmkvSetStringExpirable(kv, key, value, expireDuration);
+            if (!result)
+            {
+                throw new InvalidOperationException($"Failed to set {key} to {value} with expire duration {expireDuration}");
+            }
+        }
+        /// <exception cref="InvalidOperationException"></exception>
         public void Set(string key, byte[] value)
         {
             var result = NativeMethods.mmkvSetBytes(kv, key, value, checked((UIntPtr)(value?.LongLength ?? 0)));
@@ -218,12 +305,30 @@ namespace Alampy.ManagedMmkv
             }
         }
         /// <exception cref="InvalidOperationException"></exception>
+        public void Set(string key, byte[] value, uint expireDuration)
+        {
+            var result = NativeMethods.mmkvSetBytesExpirable(kv, key, value, checked((UIntPtr)(value?.LongLength ?? 0)), expireDuration);
+            if (!result)
+            {
+                throw new InvalidOperationException($"Failed to set {key} to {value} with expire duration {expireDuration}");
+            }
+        }
+        /// <exception cref="InvalidOperationException"></exception>
         public void Set(string key, string[] value)
         {
             var result = NativeMethods.mmkvSetStringArray(kv, key, value, checked((UIntPtr)(value?.LongLength ?? 0)));
             if (!result)
             {
                 throw new InvalidOperationException($"Failed to set {key} to {value}");
+            }
+        }
+        /// <exception cref="InvalidOperationException"></exception>
+        public void Set(string key, string[] value, uint expireDuration)
+        {
+            var result = NativeMethods.mmkvSetStringArrayExpirable(kv, key, value, checked((UIntPtr)(value?.LongLength ?? 0)), expireDuration);
+            if (!result)
+            {
+                throw new InvalidOperationException($"Failed to set {key} to {value} with expire duration {expireDuration}");
             }
         }
         #endregion

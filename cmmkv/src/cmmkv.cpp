@@ -163,11 +163,47 @@ extern "C"
         return nullptr;
     }
 
+    bool MMKVCALL mmkvIsExpirationEnabled(MMKV* kv)
+    {
+        if (kv)
+        {
+            return kv->isExpirationEnabled();
+        }
+        return false;
+    }
+
+    bool MMKVCALL mmkvEnableAutoKeyExpire(MMKV* kv, uint32_t defaultExpireDuration)
+    {
+        if (kv)
+        {
+            return kv->enableAutoKeyExpire(defaultExpireDuration);
+        }
+        return false;
+    }
+
+    bool MMKVCALL mmkvDisableAutoKeyExpire(MMKV* kv)
+    {
+        if (kv)
+        {
+            return kv->disableAutoKeyExpire();
+        }
+        return false;
+    }
+
     bool MMKVCALL mmkvSetBool(MMKV* kv, const char16_t* key, bool value)
     {
         if (kv)
         {
             return kv->set(value, strToU8(key));
+        }
+        return false;
+    }
+
+    bool MMKVCALL mmkvSetBoolExpirable(MMKV* kv, const char16_t* key, bool value, uint32_t expireDuration)
+    {
+        if (kv && kv->isExpirationEnabled())
+        {
+            return kv->set(value, strToU8(key), expireDuration);
         }
         return false;
     }
@@ -198,6 +234,15 @@ extern "C"
         return false;
     }
 
+    bool MMKVCALL mmkvSetInt32Expirable(MMKV* kv, const char16_t* key, int32_t value, uint32_t expireDuration)
+    {
+        if (kv && kv->isExpirationEnabled())
+        {
+            return kv->set(value, strToU8(key), expireDuration);
+        }
+        return false;
+    }
+
     int32_t MMKVCALL mmkvGetInt32(MMKV* kv, const char16_t* key, int32_t defaultValue, bool* hasValue)
     {
         if (kv)
@@ -220,6 +265,15 @@ extern "C"
         if (kv)
         {
             return kv->set(value, strToU8(key));
+        }
+        return false;
+    }
+
+    bool MMKVCALL mmkvSetInt64Expirable(MMKV* kv, const char16_t* key, int64_t value, uint32_t expireDuration)
+    {
+        if (kv && kv->isExpirationEnabled())
+        {
+            return kv->set(value, strToU8(key), expireDuration);
         }
         return false;
     }
@@ -250,6 +304,15 @@ extern "C"
         return false;
     }
 
+    bool MMKVCALL mmkvSetUInt32Expirable(MMKV* kv, const char16_t* key, uint32_t value, uint32_t expireDuration)
+    {
+        if (kv && kv->isExpirationEnabled())
+        {
+            return kv->set(value, strToU8(key), expireDuration);
+        }
+        return false;
+    }
+
     uint32_t MMKVCALL mmkvGetUInt32(MMKV* kv, const char16_t* key, uint32_t defaultValue, bool* hasValue)
     {
         if (kv)
@@ -272,6 +335,15 @@ extern "C"
         if (kv)
         {
             return kv->set(value, strToU8(key));
+        }
+        return false;
+    }
+
+    bool MMKVCALL mmkvSetUInt64Expirable(MMKV* kv, const char16_t* key, uint64_t value, uint32_t expireDuration)
+    {
+        if (kv && kv->isExpirationEnabled())
+        {
+            return kv->set(value, strToU8(key), expireDuration);
         }
         return false;
     }
@@ -302,6 +374,15 @@ extern "C"
         return false;
     }
 
+    bool MMKVCALL mmkvSetFloatExpirable(MMKV* kv, const char16_t* key, float value, uint32_t expireDuration)
+    {
+        if (kv && kv->isExpirationEnabled())
+        {
+            return kv->set(value, strToU8(key), expireDuration);
+        }
+        return false;
+    }
+
     float MMKVCALL mmkvGetFloat(MMKV* kv, const char16_t* key, float defaultValue, bool* hasValue)
     {
         if (kv)
@@ -328,6 +409,15 @@ extern "C"
         return false;
     }
 
+    bool MMKVCALL mmkvSetDoubleExpirable(MMKV* kv, const char16_t* key, double value, uint32_t expireDuration)
+    {
+        if (kv && kv->isExpirationEnabled())
+        {
+            return kv->set(value, strToU8(key), expireDuration);
+        }
+        return false;
+    }
+
     double MMKVCALL mmkvGetDouble(MMKV* kv, const char16_t* key, double defaultValue, bool* hasValue)
     {
         if (kv)
@@ -350,6 +440,15 @@ extern "C"
         if (kv)
         {
             return kv->set(strToU8(value), strToU8(key));
+        }
+        return false;
+    }
+
+    bool MMKVCALL mmkvSetStringExpirable(MMKV* kv, const char16_t* key, const char16_t* value, uint32_t expireDuration)
+    {
+        if (kv && kv->isExpirationEnabled())
+        {
+            return kv->set(strToU8(value), strToU8(key), expireDuration);
         }
         return false;
     }
@@ -389,6 +488,15 @@ extern "C"
         return false;
     }
 
+    bool MMKVCALL mmkvSetBytesExpirable(MMKV* kv, const char16_t* key, void* data, size_t length, uint32_t expireDuration)
+    {
+        if (kv && kv->isExpirationEnabled())
+        {
+            return kv->set(mmkv::MMBuffer(data, length), strToU8(key), expireDuration);
+        }
+        return false;
+    }
+
     void* MMKVCALL mmkvAccessBytes(MMKV* kv, const char16_t* key, bool* hasValue, MMKVBytesAccessor accessor)
     {
         if (kv)
@@ -416,6 +524,15 @@ extern "C"
         if (kv)
         {
             return kv->set(stringArrayToVector(strings, length), strToU8(key));
+        }
+        return false;
+    }
+
+    bool MMKVCALL mmkvSetStringArrayExpirable(MMKV* kv, const char16_t* key, const char16_t** strings, size_t length, uint32_t expireDuration)
+    {
+        if (kv && kv->isExpirationEnabled())
+        {
+            return kv->set(stringArrayToVector(strings, length), strToU8(key), expireDuration);
         }
         return false;
     }

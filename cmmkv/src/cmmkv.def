@@ -50,3 +50,16 @@ mmkvBackupAllToDirectory
 mmkvRestoreOneFromDirectory
 mmkvRestoreAllFromDirectory
 mmkvInitWithLogHandler
+mmkvIsExpirationEnabled
+mmkvEnableAutoKeyExpire
+mmkvDisableAutoKeyExpire
+mmkvSetBoolExpirable
+mmkvSetInt32Expirable
+mmkvSetInt64Expirable
+mmkvSetUInt32Expirable
+mmkvSetUInt64Expirable
+mmkvSetFloatExpirable
+mmkvSetDoubleExpirable
+mmkvSetStringExpirable
+mmkvSetBytesExpirable
+mmkvSetStringArrayExpirable

@@ -49,7 +49,23 @@ namespace Alampy.ManagedMmkv.Interop
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         [return: MarshalAs(UnmanagedType.I1)]
+        public static extern bool mmkvIsExpirationEnabled(IntPtr kv);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static extern bool mmkvEnableAutoKeyExpire(IntPtr kv, uint defaultExpireDuration);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static extern bool mmkvDisableAutoKeyExpire(IntPtr kv);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        [return: MarshalAs(UnmanagedType.I1)]
         public static extern bool mmkvSetBool(IntPtr kv, string key, [MarshalAs(UnmanagedType.I1)] bool value);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static extern bool mmkvSetBoolExpirable(IntPtr kv, string key, [MarshalAs(UnmanagedType.I1)] bool value, uint expireDuration);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         [return: MarshalAs(UnmanagedType.I1)]
@@ -64,6 +80,10 @@ namespace Alampy.ManagedMmkv.Interop
         public static extern bool mmkvSetInt32(IntPtr kv, string key, int value);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static extern bool mmkvSetInt32Expirable(IntPtr kv, string key, int value, uint expireDuration);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         public static extern int mmkvGetInt32(IntPtr kv, string key, int defaultValue, [MarshalAs(UnmanagedType.I1)] out bool hasValue);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
@@ -72,6 +92,10 @@ namespace Alampy.ManagedMmkv.Interop
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         [return: MarshalAs(UnmanagedType.I1)]
         public static extern bool mmkvSetInt64(IntPtr kv, string key, long value);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static extern bool mmkvSetInt64Expirable(IntPtr kv, string key, long value, uint expireDuration);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         public static extern long mmkvGetInt64(IntPtr kv, string key, long defaultValue, [MarshalAs(UnmanagedType.I1)] out bool hasValue);
@@ -84,6 +108,10 @@ namespace Alampy.ManagedMmkv.Interop
         public static extern bool mmkvSetUInt32(IntPtr kv, string key, uint value);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static extern bool mmkvSetUInt32Expirable(IntPtr kv, string key, uint value, uint expireDuration);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         public static extern uint mmkvGetUInt32(IntPtr kv, string key, uint defaultValue, [MarshalAs(UnmanagedType.I1)] out bool hasValue);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
@@ -92,6 +120,10 @@ namespace Alampy.ManagedMmkv.Interop
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         [return: MarshalAs(UnmanagedType.I1)]
         public static extern bool mmkvSetUInt64(IntPtr kv, string key, ulong value);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static extern bool mmkvSetUInt64Expirable(IntPtr kv, string key, ulong value, uint expireDuration);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         public static extern ulong mmkvGetUInt64(IntPtr kv, string key, ulong defaultValue, [MarshalAs(UnmanagedType.I1)] out bool hasValue);
@@ -104,6 +136,10 @@ namespace Alampy.ManagedMmkv.Interop
         public static extern bool mmkvSetFloat(IntPtr kv, string key, float value);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static extern bool mmkvSetFloatExpirable(IntPtr kv, string key, float value, uint expireDuration);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         public static extern float mmkvGetFloat(IntPtr kv, string key, float defaultValue, [MarshalAs(UnmanagedType.I1)] out bool hasValue);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
@@ -112,6 +148,10 @@ namespace Alampy.ManagedMmkv.Interop
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         [return: MarshalAs(UnmanagedType.I1)]
         public static extern bool mmkvSetDouble(IntPtr kv, string key, double value);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static extern bool mmkvSetDoubleExpirable(IntPtr kv, string key, double value, uint expireDuration);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         public static extern double mmkvGetDouble(IntPtr kv, string key, double defaultValue, [MarshalAs(UnmanagedType.I1)] out bool hasValue);
@@ -124,6 +164,10 @@ namespace Alampy.ManagedMmkv.Interop
         public static extern bool mmkvSetString(IntPtr kv, string key, string value);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static extern bool mmkvSetStringExpirable(IntPtr kv, string key, string value, uint expireDuration);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         public static extern IntPtr mmkvGetString(IntPtr kv, string key, string defaultValue, [MarshalAs(UnmanagedType.I1)] out bool hasValue);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
@@ -134,6 +178,10 @@ namespace Alampy.ManagedMmkv.Interop
         public static extern bool mmkvSetBytes(IntPtr kv, string key, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] byte[] data, UIntPtr length);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static extern bool mmkvSetBytesExpirable(IntPtr kv, string key, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] byte[] data, UIntPtr length, uint expireDuration);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         public static extern IntPtr mmkvAccessBytes(IntPtr kv, string key, [MarshalAs(UnmanagedType.I1)] out bool hasValue, MmkvBytesAccessor accessor);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
@@ -142,6 +190,10 @@ namespace Alampy.ManagedMmkv.Interop
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         [return: MarshalAs(UnmanagedType.I1)]
         public static extern bool mmkvSetStringArray(IntPtr kv, string key, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] string[] data, UIntPtr length);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static extern bool mmkvSetStringArrayExpirable(IntPtr kv, string key, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] string[] data, UIntPtr length, uint expireDuration);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         public static extern IntPtr mmkvAccessStringArray(IntPtr kv, string key, [MarshalAs(UnmanagedType.I1)] out bool hasValue, MmkvStringArrayAccessorU8 accessor);
