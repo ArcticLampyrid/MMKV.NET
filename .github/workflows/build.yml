@@ -81,9 +81,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        rid: [osx-x64]
+        rid: [osx-x64, osx-arm64]
         include:
         - rid: osx-x64
+          osx_arch: x86_64
+        - rid: osx-arm64
+          osx_arch: arm64
     name: Build CMMKV (${{ matrix.rid }})
     runs-on: macos-latest
     steps:
@@ -96,7 +99,7 @@ jobs:
       - name: Build
         run: |
           cd ${{ github.workspace }}/cmmkv
-          cmake . -G "Ninja" -DCMAKE_BUILD_TYPE=RelWithDebInfo ${{ matrix.toolchain_file && format('-DCMAKE_TOOLCHAIN_FILE={0}', matrix.toolchain_file) || '' }}
+          cmake . -G "Ninja" -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_OSX_ARCHITECTURES=${{ matrix.osx_arch }}
           cmake --build . --config RelWithDebInfo
       - uses: actions/upload-artifact@v4
         with:
@@ -148,6 +151,13 @@ jobs:
           path: ${{ github.workspace }}/cmmkv/output/${{ env.rid }}
       - env:
           rid: osx-x64
+        name: Download CMMKV binary (${{ env.rid }})
+        uses: actions/download-artifact@v4
+        with:
+          name: cmmkv-${{ env.rid }}
+          path: ${{ github.workspace }}/cmmkv/output/${{ env.rid }}
+      - env:
+          rid: osx-arm64
         name: Download CMMKV binary (${{ env.rid }})
         uses: actions/download-artifact@v4
         with:
