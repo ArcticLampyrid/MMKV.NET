@@ -248,7 +248,7 @@ namespace Alampy.ManagedMmkv
             var result = NativeMethods.mmkvGetBool(kv, key, default, out var hasValue);
             if (!hasValue)
             {
-                throw new Exception($"Failed to get key ${key}");
+                throw new KeyNotFoundException($"Failed to get key ${key}");
             }
             return result;
         }
@@ -258,7 +258,7 @@ namespace Alampy.ManagedMmkv
             var result = NativeMethods.mmkvGetInt32(kv, key, default, out var hasValue);
             if (!hasValue)
             {
-                throw new Exception($"Failed to get key ${key}");
+                throw new KeyNotFoundException($"Failed to get key ${key}");
             }
             return result;
         }
@@ -268,7 +268,7 @@ namespace Alampy.ManagedMmkv
             var result = NativeMethods.mmkvGetInt64(kv, key, default, out var hasValue);
             if (!hasValue)
             {
-                throw new Exception($"Failed to get key ${key}");
+                throw new KeyNotFoundException($"Failed to get key ${key}");
             }
             return result;
         }
@@ -278,7 +278,7 @@ namespace Alampy.ManagedMmkv
             var result = NativeMethods.mmkvGetUInt32(kv, key, default, out var hasValue);
             if (!hasValue)
             {
-                throw new Exception($"Failed to get key ${key}");
+                throw new KeyNotFoundException($"Failed to get key ${key}");
             }
             return result;
         }
@@ -288,7 +288,7 @@ namespace Alampy.ManagedMmkv
             var result = NativeMethods.mmkvGetUInt64(kv, key, default, out var hasValue);
             if (!hasValue)
             {
-                throw new Exception($"Failed to get key ${key}");
+                throw new KeyNotFoundException($"Failed to get key ${key}");
             }
             return result;
         }
@@ -298,7 +298,7 @@ namespace Alampy.ManagedMmkv
             var result = NativeMethods.mmkvGetFloat(kv, key, default, out var hasValue);
             if (!hasValue)
             {
-                throw new Exception($"Failed to get key ${key}");
+                throw new KeyNotFoundException($"Failed to get key ${key}");
             }
             return result;
         }
@@ -308,7 +308,7 @@ namespace Alampy.ManagedMmkv
             var result = NativeMethods.mmkvGetDouble(kv, key, default, out var hasValue);
             if (!hasValue)
             {
-                throw new Exception($"Failed to get key ${key}");
+                throw new KeyNotFoundException($"Failed to get key ${key}");
             }
             return result;
         }
@@ -318,7 +318,7 @@ namespace Alampy.ManagedMmkv
             var result = NativeMethods.mmkvGetString(kv, key, default, out var hasValue);
             if (!hasValue)
             {
-                throw new Exception($"Failed to get key ${key}");
+                throw new KeyNotFoundException($"Failed to get key ${key}");
             }
             return NativeUtils.FinalizeStringBox(result);
         }
@@ -328,7 +328,7 @@ namespace Alampy.ManagedMmkv
             var result = NativeUtils.mmkvGetBytes(kv, key, default, out var hasValue);
             if (!hasValue)
             {
-                throw new Exception($"Failed to get key ${key}");
+                throw new KeyNotFoundException($"Failed to get key ${key}");
             }
             return result;
         }
@@ -338,7 +338,7 @@ namespace Alampy.ManagedMmkv
             var result = NativeUtils.mmkvGetStringArray(kv, key, default, out var hasValue);
             if (!hasValue)
             {
-                throw new Exception($"Failed to get key ${key}");
+                throw new KeyNotFoundException($"Failed to get key ${key}");
             }
             return result;
         }
