@@ -101,5 +101,25 @@ namespace Alampy.ManagedMmkv.Interop
                 handle.Free();
             }
         }
+
+#pragma warning disable IDE1006 // 命名样式
+        public static string[] mmkvAllKeys(IntPtr kv, bool filterExpire)
+#pragma warning restore IDE1006 // 命名样式
+        {
+            var handlePtr = NativeMethods.mmkvAccessAllKeys(kv, filterExpire, stringArrayAccessor);
+            if (handlePtr == IntPtr.Zero)
+            {
+                return default;
+            }
+            var handle = GCHandle.FromIntPtr(handlePtr);
+            try
+            {
+                return (string[])handle.Target;
+            }
+            finally
+            {
+                handle.Free();
+            }
+        }
     }
 }

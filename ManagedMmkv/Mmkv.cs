@@ -535,9 +535,18 @@ namespace Alampy.ManagedMmkv
         public long LongCount => checked((long)NativeCount);
         public UIntPtr NativeCount => NativeMethods.mmkvCount(kv);
 
+        /// <exception cref="OverflowException"/>
+        public int CountNonExpired => checked((int)NativeCountNonExpired);
+        public long LongCountNonExpired => checked((long)NativeCountNonExpired);
+        public UIntPtr NativeCountNonExpired => NativeMethods.mmkvCountNonExpired(kv);
+
         public UIntPtr TotalSize => NativeMethods.mmkvTotalSize(kv);
         public UIntPtr ActualSize => NativeMethods.mmkvActualSize(kv);
 
+        public string[] AllKeys(bool filterExpire = false)
+        {
+            return NativeUtils.mmkvAllKeys(kv, filterExpire);
+        }
 
         public void Remove(string key)
         {

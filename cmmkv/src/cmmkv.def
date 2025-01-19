@@ -63,3 +63,5 @@ mmkvSetDoubleExpirable
 mmkvSetStringExpirable
 mmkvSetBytesExpirable
 mmkvSetStringArrayExpirable
+mmkvCountNonExpired
+mmkvAccessAllKeys

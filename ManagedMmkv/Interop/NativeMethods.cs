@@ -60,6 +60,9 @@ namespace Alampy.ManagedMmkv.Interop
         public static extern bool mmkvDisableAutoKeyExpire(IntPtr kv);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        public static extern IntPtr mmkvAccessAllKeys(IntPtr kv, [MarshalAs(UnmanagedType.I1)] bool filterExpire, MmkvStringArrayAccessorU8 accessor);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         [return: MarshalAs(UnmanagedType.I1)]
         public static extern bool mmkvSetBool(IntPtr kv, string key, [MarshalAs(UnmanagedType.I1)] bool value);
 
@@ -207,6 +210,9 @@ namespace Alampy.ManagedMmkv.Interop
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         public static extern UIntPtr mmkvCount(IntPtr kv);
+
+        [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        public static extern UIntPtr mmkvCountNonExpired(IntPtr kv);
 
         [DllImport("cmmkv", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
         public static extern UIntPtr mmkvTotalSize(IntPtr kv);

@@ -190,6 +190,28 @@ extern "C"
         return false;
     }
 
+    void* MMKVCALL mmkvAccessAllKeys(MMKV* kv, bool filterExpire, MMKVStringArrayAccessorU8 accessor)
+    {
+        if (kv)
+        {
+            auto keys = kv->allKeys(filterExpire);
+            size_t length = keys.size();
+            if (length == 0)
+            {
+                return nullptr;
+            }
+            // Skip out-of-bounds checking for performance
+            auto pBegin = keys.data();
+            std::unique_ptr<const char*[]> lpArray = std::make_unique<const char*[]>(length);
+            for (size_t i = 0; i < length; i++)
+            {
+                lpArray[i] = pBegin[i].c_str();
+            }
+            return accessor(lpArray.get(), length);
+        }
+        return nullptr;
+    }
+
     bool MMKVCALL mmkvSetBool(MMKV* kv, const char16_t* key, bool value)
     {
         if (kv)
@@ -584,6 +606,15 @@ extern "C"
         if (kv)
         {
             return kv->count();
+        }
+        return 0;
+    }
+
+    size_t MMKVCALL mmkvCountNonExpired(MMKV* kv)
+    {
+        if (kv)
+        {
+            return kv->count(true);
         }
         return 0;
     }

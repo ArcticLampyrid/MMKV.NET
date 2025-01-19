@@ -59,6 +59,37 @@ namespace ManagedMmkvTest
         }
 
         [Test]
+        public void AllKeys()
+        {
+            using (var mmkv = Mmkv.WithID("test-all-keys", MmkvMode.SingleProcess))
+            {
+                if (!mmkv.IsExpirationEnabled)
+                {
+                    mmkv.EnableAutoKeyExpire(Mmkv.ExpireNever);
+                }
+                Assert.That(mmkv.IsExpirationEnabled, Is.True);
+                mmkv.Clear();
+                mmkv.Set("a", 123);
+                mmkv.Set("b", 123, 1);
+                Assert.Multiple(() =>
+                {
+                    Assert.That(mmkv, Has.Count.EqualTo(2));
+                    Assert.That(mmkv.AllKeys(false), Is.EquivalentTo(new string[] { "a", "b" }));
+                    Assert.That(mmkv.CountNonExpired, Is.EqualTo(2));
+                    Assert.That(mmkv.AllKeys(true), Is.EquivalentTo(new string[] { "a", "b" }));
+                });
+                System.Threading.Thread.Sleep(2000);
+                Assert.Multiple(() =>
+                {
+                    Assert.That(mmkv, Has.Count.EqualTo(2));
+                    Assert.That(mmkv.AllKeys(false), Is.EquivalentTo(new string[] { "a", "b" }));
+                    Assert.That(mmkv.CountNonExpired, Is.EqualTo(1));
+                    Assert.That(mmkv.AllKeys(true), Is.EquivalentTo(new string[] { "a" }));
+                });
+            }
+        }
+
+        [Test]
         public void BackupOne()
         {
             var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
